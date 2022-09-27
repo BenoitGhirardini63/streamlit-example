@@ -8,14 +8,10 @@ import os
 
 class verify():
     def verify_file(self, files):
-        for elem in os:
-            st.write(elem)
-            
-        IS_STREAMLIT_SHARING = os.getenv('USERNAME')
-
+        st.write(os.getenv('USERNAME'))
         st.write(os.getenv('USER'))
-        st.write(os.environ.get("IS_STREAMLIT_SHARING"))
-
+        st.write(os.getcwd())
+        
         chemin = f"C:/Users/{os.environ.get('USERNAME')}/Documents"
 
         #files = r'C:\Users\F269167\OneDrive - MFP Michelin\Projets en cours\Suivi formations\Base Excel-Access\InstallV3\Fichiers\EFF Cfe à Fin fév 2022 sans coeff.xlsx'
