@@ -14,7 +14,8 @@ class verify():
         try:
             read_file = pd.read_excel (files)
             
-
+            st.write(read_file)
+            
         #Remplace toutes les entêtes qui contiennent des ' ' par des '_'
             i = 0
             ii = 0
