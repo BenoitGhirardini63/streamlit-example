@@ -8,7 +8,8 @@ import os
 
 class verify():
     def verify_file(self, files):
-        IS_STREAMLIT_SHARING = os.getenv('USER') == 'appuser'
+        IS_STREAMLIT_SHARING = os.getenv('USER') == os.getenv('USERNAME')
+        
         st.write(os.getenv('USER'))
         st.write(os.environ.get("IS_STREAMLIT_SHARING"))
 
