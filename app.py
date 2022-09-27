@@ -1089,7 +1089,7 @@ class main(): # -- Application du header
     
     def _init(self):
         try:
-            bdd = sql.connect(f'C:\Users\F269167\3T\BDD\{nom_db}')
+            bdd = sql.connect("C:\Users\F269167\3T\BDD\{}".format(nom_db))
             _init = bdd.execute("SELECT * FROM Admins")
 
             for id in _init.fetchall():
