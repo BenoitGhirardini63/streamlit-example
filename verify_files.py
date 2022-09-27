@@ -8,6 +8,8 @@ import os
 
 class verify():
     def verify_file(self, files):
+        IS_STREAMLIT_SHARING = os.getenv('USER') == 'appuser'
+        st.write(os.getenv('USER'))
         st.write(os.environ.get("IS_STREAMLIT_SHARING"))
 
         chemin = f"C:/Users/{os.environ.get('USERNAME')}/Documents"
