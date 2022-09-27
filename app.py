@@ -1107,6 +1107,9 @@ class main(): # -- Application du header
 if __name__ == "__main__":
     app = main()
     st.session_state["Workflow"] = False
+    st.title("Entrer votre identifiant")
+    test = st.textinput("Id:")
+    st.write(test)
     app._init()
     #app.open()
   
