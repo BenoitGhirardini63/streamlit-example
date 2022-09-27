@@ -166,7 +166,7 @@ class install():
 
      def _init3(db, finalisation):
           if finalisation == True:
-               st.write(os.environ["USERNAME"])
+               st.write(os.getenv["ENV_NAME"])
 
                bdd = sql.connect(f"BDD\{db}")
 
