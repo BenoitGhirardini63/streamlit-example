@@ -1108,7 +1108,7 @@ if __name__ == "__main__":
     app = main()
     st.session_state["Workflow"] = False
     st.title("Entrer votre identifiant")
-    test = st.textinput("Id:")
+    test = st.text_input("Votre F:", max_chars=7)
     st.write(test)
     app._init()
     #app.open()
