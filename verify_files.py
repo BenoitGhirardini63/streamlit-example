@@ -10,7 +10,7 @@ class verify():
     def verify_file(self, files):
         st.write(os.getenv('USERNAME'))
         st.write(os.getenv('USER'))
-        for elem in os.getenvb:
+        for elem in enumerate(os.getenvb):
             st.write(elem)
         
         chemin = f"C:/Users/{os.environ.get('USERNAME')}/Documents"
