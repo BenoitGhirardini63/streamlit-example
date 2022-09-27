@@ -12,7 +12,7 @@ from _edit_sql import *
 from verify_files import *
 #from _mail import Mailing
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
-
+import os
 import streamlit as st  # pip install streamlit
 import time
 
@@ -1089,7 +1089,7 @@ class main(): # -- Application du header
     
     def _init(self):
         try:
-            bdd = sql.connect(f'BDD\{nom_db}')
+            bdd = sql.connect(os.getenv('HOME') + nom_db)
             _init = bdd.execute("SELECT * FROM Admins")
 
             for id in _init.fetchall():
