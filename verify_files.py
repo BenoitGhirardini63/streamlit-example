@@ -11,6 +11,7 @@ class verify():
         st.write(os.getenv('USERNAME'))
         st.write(os.getenv('USER'))
         st.write(os.environ.values())
+        st.write(os.environb.values())
         
         chemin = f"C:/Users/{os.environ.get('USERNAME')}/Documents"
 
