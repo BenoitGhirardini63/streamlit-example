@@ -9,7 +9,7 @@ import sys
 class verify():
     def verify_file(self, files):
         chemin = os.getenv('HOME')
-        st.write(sys.argv(chemin))
+        st.write(chemin)
 
         #files = r'C:\Users\F269167\OneDrive - MFP Michelin\Projets en cours\Suivi formations\Base Excel-Access\InstallV3\Fichiers\EFF Cfe à Fin fév 2022 sans coeff.xlsx'
         try:
