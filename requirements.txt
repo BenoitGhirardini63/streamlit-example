@@ -6,3 +6,4 @@ datetime
 plotly
 matplotlib
 coreapi
+openpyxl
