@@ -10,9 +10,11 @@ from _main import *
 from _charts import *
 from _edit_sql import *
 from verify_files import *
-#from _mail import Mailing
+from _mail import Mailing
+
+#Librairies
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
-import os
+import hydralit_components as hc
 import streamlit as st  # pip install streamlit
 import time
 
@@ -43,6 +45,118 @@ font-size:18px ; font-family: 'MS Sans Serif'; color: #0078d7;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+hc.hydralit_experimental(True)
+
+
+unlogging = """
+<div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+Profil utilisateur
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel"></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="container">
+<h2 style="color:black">Profil utilisateur</h2>
+
+<form class="form-horizontal" action="/">
+
+<div class="form-group">        
+<div class="col-sm-offset-2 col-sm-10">
+  <div class="checkbox">
+    <label><input type="checkbox" name="remember" style="color:black">Remember me</label>
+  </div>
+</div>
+</div>
+
+
+
+
+<div class="form-group">        
+<div class="col-sm-offset-2 col-sm-10">
+    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+    <button type="submit" class="btn btn-primary">Se connecter</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+"""
+
+modal_code = """
+<div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+Se connecter
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel"></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="container">
+<h2 style="color:black">Connection</h2>
+
+<form class="form-horizontal" action="/">
+<div class="form-group">
+    <label style="color:black" for="text">Identifiant Michelin:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="text" placeholder="Fxxxxxx" name="text">
+        </div>
+</div>
+
+<div class="form-group">
+<label style="color:black" for="pwd">Mot de passe:</label>
+<div class="col-sm-10">          
+  <input type="password" class="form-control" id="pwd" placeholder="xxxxxxxx" name="pwd">
+</div>
+</div>
+
+
+
+<div class="form-group">        
+<div class="col-sm-offset-2 col-sm-10">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+    <button type="submit" class="btn btn-primary">Se connecter</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+"""
+
 
 hide_table_row_index = """
     <style>
@@ -135,10 +249,8 @@ class main(): # -- Application du header
         if self.choix_visu == 'Par personne':
             with left_header_column:
                 self.workflow_selected = st.selectbox("Choix par personne", options=option)
-                
-
-
-            main.subheader_workflow(self)
+        
+            app.subheader_workflow()
     
     def subheader_workflow(self):
         left_column, left_midle_column, right_midle_column, right_column = st.columns(4)# -- Définition des colonnes sous l'entête du site
@@ -262,7 +374,7 @@ class main(): # -- Application du header
         with right_column:
             st.altair_chart(self.chart_bars, use_container_width=True)
         
-        main.details_workflow(self)
+        app.details_workflow()
     
     def details_workflow(self):
         workflow_selected = str(self.workflow_selected).split()
@@ -318,7 +430,6 @@ class main(): # -- Application du header
             with column2:
                 self.active_value = edit.verif_cat_personne(self.chorus, self.categories)
                 #st.write("Effectifs : {} | Suivie par : {} personne(s)".format(effectifs, self.active_value))
-
                 label1 = "La catégorie {} est actuellement :".format(self.categories)
                 label2 = "Modifier le suivi de la catégorie {}".format(self.categories)
                 if "False" in self.active_value[0]:
@@ -415,20 +526,20 @@ class main(): # -- Application du header
             with column3:
                 if "True" in self.active_value[0]:
                     bilan_cat = synthese.bilan_cat_personne(self.chorus, self.categories)
-                    df = pd.DataFrame(bilan_cat, columns=["Codes modules", "Intitulés codes modules", "Suivi", "Terminé le", "Date de validité"])
-                    df = df.replace({'Suivi': 'True'}, {'Suivi': 'Oui'}, regex=True)
-                    df = df.replace({'Suivi': 'False'}, {'Suivi': 'Non'}, regex=True)
+
+                    df_synthe_personne = pd.DataFrame(bilan_cat, columns=["Codes modules", "Intitulés codes modules", "Suivi", "Terminé le", "Date de validité"])
+                    df_synthe_personne = df_synthe_personne.replace({'Suivi': 'True'}, {'Suivi': 'Oui'}, regex=True)
+                    df_synthe_personne = df_synthe_personne.replace({'Suivi': 'False'}, {'Suivi': 'Non'}, regex=True)
                   
 
-
-                    gb = GridOptionsBuilder.from_dataframe(df)
+                    gb = GridOptionsBuilder.from_dataframe(df_synthe_personne)
                     gb.configure_column('Terminé le', editable=True)
                     gb.configure_selection(selection_mode='single')
                     grid_options = gb.build()
 
 
                     response = AgGrid(
-                        df,
+                        df_synthe_personne,
                         theme="streamlit",
                         key='table1',
                         gridOptions=grid_options,
@@ -439,14 +550,15 @@ class main(): # -- Application du header
                         )
                     
                     df1 = pd.DataFrame(response['data'])
-                    test = df.compare(df1, keep_shape=True, keep_equal=True)
+                    df_compare =df_synthe_personne.compare(df1, keep_shape=True, keep_equal=True)
+
 
                     df = response['data']
                     selected = response['selected_rows']
                     selected_df = pd.DataFrame(selected)
                     
                     if selected:
-                        for elem in test.values:
+                        for elem in df_compare.values:
                             if "/" in elem[7]: #Vérifie le format date, le format doit obligatoirement etre du style jj-mm-yyyy
                                 test = str(elem[7]).replace("/", "-")
                                 elem[7] = test
@@ -454,7 +566,6 @@ class main(): # -- Application du header
                             if len(elem[7]) == 10:    
                                 if elem[6] != elem[7]:
                                     st.session_state["success"] = True
-                                    success = st.info(f"La date pour le code {elem[0]}, va être modifiée, veuillez patienter.")
                                     test = edit.update_date(self.chorus, elem[7], elem[0])
                             
                             elif len(elem[7]) != 10 and elem[7] !='': st.warning("Le format date ne correspond pas. Merci de respecter le format suivant : jj-mm-aaaa")
@@ -526,9 +637,10 @@ class main(): # -- Application du header
 
             with right_header_column:
                 pass
+
           
-            main.subheader_synthese(self)
-        elif self.choix_visu == 'Par personne': main.header_workflow(self)
+            app.subheader_synthese()
+        elif self.choix_visu == 'Par personne': app.header_workflow()
 
 
     def subheader_synthese(self):
@@ -691,35 +803,27 @@ class main(): # -- Application du header
 
 
     # -- Fonction du siderbar (menu glissant gauche)
-    def sidebar(self, list_workflow):
-        self.list_workflow = list_workflow # -- Récupération de la liste effectif (vient de la fonction Open)
-        self.workflow_selected = st.sidebar.multiselect("", options=list_workflow[0]) # -- Attribution de la liste effectif dans le widget multiselect
-        
-        self.open_init = st.sidebar.checkbox("Ouvrir menu mise à jour", key="Menu_maj") # -- Création du bouton Ouverture panneau initialisation fichiers
-   
-        # -- Modification des titres header et sidebar lors de la selection d'un effectif
-        if self.workflow_selected:
-            self.header_title.title(self.workflow_selected[0])
-            self.sidebar_left_title.title(self.workflow_selected[0])
-            app.header_workflow()
-
-
-
-
+    def sidebar(self):
+        self.sidebar_left_title = st.sidebar.header("Menu options") # -- Création variable titre menu glissant
+        with st.sidebar.expander("Mettre à jour le suivi"):
+            files = st.sidebar.file_uploader("Selectionnez un fichier", key="Choix")
+            if files:
+                self.info = st.sidebar.info("Veuillez patienter pendant la lecture du fichier", icon="ℹ️") # -- Affiche un message d'info
+                time.sleep(0.5)
+                self.verif = verify.verify_file(self, files) # -- Lance la procédure de vérification du fichier 
+ 
         # -- Si la clé "Valid" n'est pas dans la session streamlit, alors on effectue la condition    
+        
         if "Valid" not in st.session_state:
-            if self.open_init: # -- Si le bouton ouverture menu initialisation est activé on effectue la condition
-                self.inf = st.sidebar.info # -- Définition d'une variable information pour affichage 
-                files = self.file("Selectionnez un fichier", key="Choix") # -- Ouverture d'une boite de dialogue windows pour la selection d'un fichier en l'attibuant à 'files
-                
+              
                 # -- Si un fichier est choisi on effectue la condition
                 if files:
-                    self.inf("Veuillez patienter pendant la lecture du fichier", icon="ℹ️") # -- Affiche un message d'info
+                    self.info.info("Veuillez patienter pendant la lecture du fichier", icon="ℹ️") # -- Affiche un message d'info
                     time.sleep(0.5)
                     self.verif = verify.verify_file(self, files) # -- Lance la procédure de vérification du fichier 
                     
                     if "Erreur" not in self.verif: # -- Si la valeur Erreur n'est pas dans la session, on effectue la condition
-                        self.inf("Fichier csv créé, vous pouvez commencer la mise à jour en cliquant sur le bouton 'Valider' ", icon="✔️") # -- Affiche le message d'info
+                        self.info.info("Fichier csv créé, vous pouvez commencer la mise à jour en cliquant sur le bouton 'Valider' ", icon="✔️") # -- Affiche le message d'info
                         st.sidebar.button("Valider", key="Valid") # -- Affichage du bouton valider            
                         st.session_state["verif"] = self.verif[0] # -- récupère l'état de la verif dans la session
                         st.session_state["Table"] = self.verif[1] # -- Récupère la table à modifier dans la session
@@ -732,7 +836,8 @@ class main(): # -- Application du header
                             
         else:
             main.update_sql() # -- Effectue la mise à jour de la base de données
-    
+        
+
     # -- Fonction détails manager
     def details_manager(self, categories, manager, effectifs):
         if st.session_state["Workflow"] == False:
@@ -1054,11 +1159,16 @@ class main(): # -- Application du header
   
     def open(self):
         #self.init = sql.connect(f"Fichiers\{nom_db}", check_same_thread=False)
+        left_col, leftt_midle_col, right_midle__col, right_col = st.columns(4)
         self.list_workflow = Init.list_personnes() # -- Récupération des personnes suivies
         self.file = st.sidebar.file_uploader # -- Choix fichier effectifs
-        self.choix_visu = st.radio("Changement de mode de visualisation", options=["Par équipe", "Par personne"])
+        
+        with left_col:
+            self.choix_visu = st.radio("Changement de mode de visualisation", options=["Par équipe", "Par personne"])
 
-        #app.sidebar(self.list_workflow) # -- Envoi des données vers le sidebar du site (menu glissant gauche)
+        
+        
+        app.sidebar() # -- Envoi des données vers le sidebar du site (menu glissant gauche)
 
 
 
@@ -1067,12 +1177,7 @@ class main(): # -- Application du header
         self.info = st.sidebar.info
         self.error = st.sidebar.error
         self.header_title = st.title("Suivi formations") # -- Création variable titre page
-        
-        left_column, right_column = st.sidebar.columns(2)       
-        with left_column:
-            self.sidebar_left_title = st.sidebar.header("Menu principal") # -- Création variable titre menu glissant
-        with right_column:
-            self.manager_choice = st.selectbox # -- Liste déroulante manageurs
+        self.manager_choice = st.selectbox # -- Liste déroulante manageurs
   
 
         self.trainings = synthese.Synth_Atelier() # -- Récupération des données formations
@@ -1087,19 +1192,8 @@ class main(): # -- Application du header
         app.header_synthese()  # -- Envoi des données vers le header du site
         
     
-    def _init(self):
-        try:
-            bdd = sql.connect("C:\Users\F269167\3T\BDD\{}".format(nom_db))
-            _init = bdd.execute("SELECT * FROM Admins")
-
-            for id in _init.fetchall():
-                st.write(id[2])
-                if id[2] == os.environ["USERNAME"]:
-                    app.open()
-                break
-
-        except sql.Error:
-            install._Init(self, bdd, nom_db)
+    def _init(self, st_id):
+        install._Init(self, repertoire, nom_db, st_id)
 
 
 
@@ -1107,12 +1201,45 @@ class main(): # -- Application du header
 if __name__ == "__main__":
     app = main()
     st.session_state["Workflow"] = False
-    st.title("Entrer votre identifiant")
-    test = st.text_input("Votre F:", max_chars=7)
-    if test:
-        app._init()
-    #app.open()
-  
-  
+
+    if "connect_ok" not in st.session_state:
+        st.title("Vous devez être connecté pour utiliser l'application")
+        connection = st.markdown(modal_code,unsafe_allow_html=True)
+        query_param = st.experimental_get_query_params()
+
+        if query_param:
+            
+            
+            st_id = query_param["text"][0]
+            st.session_state["st_id"] = st_id
+            
+            st_pwd = query_param["pwd"][0]
+            st.session_state["st_pwd"] = st_pwd
+            repertoire = f'C:/Users/{st_id}/3T/BDD/'
+
+            try:
+                bdd = sql.connect(f"{repertoire}{nom_db}", check_same_thread=False)
+                co = bdd.execute(f"SELECT Nom, Password FROM Admins Where Michelin_ID='{st_id}'")
+                co = co.fetchone()
+                st.session_state["connect_ok"] = "ok"
+
+                if co[1] == st_pwd:
+                    st.experimental_set_query_params(text="", pwd="")
+                    app.open()
+                else:
+                    st.write("mot de passe incorrect")
+
+            except sql.Error:
+                if "connect_ok" not in st.session_state:
+                    st.session_state["connect_ok"] = "ok"
+                    st.experimental_rerun()
+                app._init(st_id)
+                
+
+        
 
 
+    else:
+        st_id = st.session_state["st_id"]
+        st.experimental_set_query_params(text="", pwd="")
+        app.open()
