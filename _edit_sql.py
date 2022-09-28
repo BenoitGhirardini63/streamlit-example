@@ -7,7 +7,8 @@ from datetime import *
 
 # -- Définition des variables globales --
 nom_db = "Bdd.db"
-bdd = sql.connect(f"BDD\{nom_db}", check_same_thread=False)
+repertoire = 'C:/Users/F269167/3T/BDD/'
+bdd = sql.connect(f"{repertoire}{nom_db}", check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
 
@@ -23,7 +24,7 @@ class edit():
                 temp = requet.fetchone()
                 try:
                     if temp[0] == manager:
-                        sql_update ="UPDATE S_{} SET Suivi_categories='True', Suivi_module='True' WHERE Suivi_categories='False' AND Categories='{}'".format(ID_Employee, categorie)
+                        sql_update ="UPDATE S_{} SET Suivi_categories='True', Suivi_module='True' WHERE Suivi_categories='False' AND Old_categories='{}'".format(ID_Employee, categorie)
                         bdd_cursor.execute(sql_update)
                         bdd.commit()
                 except sql.Error as e:
@@ -43,7 +44,7 @@ class edit():
                 temp = requet.fetchone()
                 try:
                     if temp[0] == manager:
-                        sql_update ="UPDATE S_{} SET Suivi_categories='False', Suivi_module='False' WHERE Suivi_categories='True' AND Categories='{}'".format(ID_Employee, categories)
+                        sql_update ="UPDATE S_{} SET Suivi_categories='False', Suivi_module='False' WHERE Suivi_categories='True' AND Old_categories='{}'".format(ID_Employee, categories)
                         bdd_cursor.execute(sql_update)
                         bdd.commit()
                 except sql.Error as e:
@@ -106,7 +107,7 @@ class edit():
                 temp = requet.fetchone()
                 try:
                     if temp[0] == manager:
-                        value = bdd.execute("SELECT Suivi_categories FROM S_{} WHERE Categories='{}'".format(ID_Employee, categorie))
+                        value = bdd.execute("SELECT Suivi_categories FROM S_{} WHERE Old_categories='{}'".format(ID_Employee, categorie))
                         value = value.fetchone()
                         if value is not None:
                             list_test.append((value[0]))
@@ -219,7 +220,7 @@ class edit():
 
     def verif_cat_personne(chorus, categorie):
         try:
-            requet = bdd.execute("SELECT Suivi_categories FROM S_{} WHERE Categories='{}'".format(chorus, categorie))
+            requet = bdd.execute("SELECT Suivi_categories FROM S_{} WHERE Old_categories='{}'".format(chorus, categorie))
             return requet.fetchall()
         except sql.Error as e:
             return(f"Erreur Sql : {str(e)}")
@@ -259,7 +260,7 @@ class edit():
     def active_categorie_personne(chorus, categorie):
         
         try :
-            sql_update ="UPDATE S_{} SET Suivi_categories='True' WHERE Suivi_categories='False' AND Categories='{}'".format(chorus, categorie)
+            sql_update ="UPDATE S_{} SET Suivi_categories='True' WHERE Suivi_categories='False' AND Old_categories='{}'".format(chorus, categorie)
             bdd_cursor.execute(sql_update)
             bdd.commit()
             return("Success")
@@ -270,7 +271,7 @@ class edit():
     def desactive_categorie_personne(chorus, categorie):
         
         try :
-            sql_update ="UPDATE S_{} SET Suivi_categories='False' WHERE Suivi_categories='True' AND Categories='{}'".format(chorus, categorie)
+            sql_update ="UPDATE S_{} SET Suivi_categories='False' WHERE Suivi_categories='True' AND Old_categories='{}'".format(chorus, categorie)
             bdd_cursor.execute(sql_update)
             bdd.commit()
             return("Success")
@@ -281,7 +282,7 @@ class edit():
     def update_date(chorus, ladate, code):
         ladate = datetime.strptime(ladate, "%d-%m-%Y")
         datelimite = ladate + timedelta(days=(365*4))
-
+        success = st.info(f"La date pour le code {code}, va être modifiée, veuillez patienter.")
         verif = bdd.execute("SELECT Date_fait FROM S_{} WHERE Codes_modules='{}'".format(chorus, code))
 
         if verif:
@@ -296,7 +297,7 @@ class edit():
                     sql_update ="UPDATE S_{} SET Date_fait='{}', Date_fin='{}' WHERE Codes_modules='{}'".format(chorus, str(ladate), str(limite), code)
                     bdd_cursor.execute(sql_update)
                     bdd.commit()
-                    success = st.info(f"Mise à jour effectuée avec succès pour le module {code}")
+                    success.info(f"Mise à jour effectuée avec succès pour le module {code}")
                     sleep(2)
                     st.experimental_rerun()
 
