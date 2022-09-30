@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import wmi
+
  
 import platform
  
