@@ -3,4 +3,4 @@ import os
 
 
 st.title("Bonjour")
-st.write(os.path())
+st.write(os.path.dirname())
