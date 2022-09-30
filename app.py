@@ -6,11 +6,16 @@ import platform
  
 my_system = platform.uname()
  
-st.write(os.uname())
+
 st.title("Bonjour")
-st.write(f"System: {my_system.system}")
-st.write(f"Node Name: {my_system.node}")
-st.write(f"Release: {my_system.release}")
-st.write(f"Version: {my_system.version}")
-st.write(f"Machine: {my_system.machine}")
-st.write(f"Processor: {my_system.processor}")
+import subprocess
+ 
+# traverse the info
+Id = subprocess.check_output(['systeminfo']).decode('utf-8').split('\n')
+new = []
+ 
+# arrange the string into clear info
+for item in Id:
+    new.append(str(item.split("\r")[:-1]))
+for i in new:
+    st.write(i[2:-2])
