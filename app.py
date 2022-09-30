@@ -1,6 +1,7 @@
 import streamlit as st
 import os
-
+import wmi
+ 
 import platform
  
 my_system = platform.uname()
@@ -14,8 +15,7 @@ st.write(f"Version: {my_system.version}")
 st.write(f"Machine: {my_system.machine}")
 st.write(f"Processor: {my_system.processor}")
 
-import wmi
- 
+
 c = wmi.WMI()   
 my_system = c.Win32_ComputerSystem()[0]
  
