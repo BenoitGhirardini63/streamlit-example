@@ -20,7 +20,7 @@ class install():
           self.nom_db = nom_db
           self.progress = st.progress(0)
 
-          _bdd = sql.connect(f"{self.repertoire}{nom_db}")
+          _bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
 
           try:
                _bdd.execute("SELECT * FROM Catalogue")
@@ -86,7 +86,7 @@ class install():
           self.sous_titre.subheader("Choix des personnes et des codes modules à suivre")
           col1, col2, col3, col4 = st.columns(4)
           liste_personne = []
-          bdd = sql.connect(f"{self.repertoire}{nom_db}")
+          bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
           
           with col1:
                st.subheader("Selectionnez les personnes à suivre")
@@ -173,7 +173,7 @@ class install():
           st.write(finalisation)
 
           if finalisation == True:
-               bdd = sql.connect(f"{self.repertoire}{nom_db}")
+               bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
 
                bdd.execute("""CREATE TABLE Admins (
                          id INTEGER PRIMARY KEY AUTOINCREMENT,
