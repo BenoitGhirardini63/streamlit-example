@@ -6,8 +6,6 @@ import streamlit as st
 from datetime import *
 
 # -- Définition des variables globales --
-nom_db = "Bdd.db"
-repertoire = 'C:/Users/F269167/3T/BDD/'
 bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
