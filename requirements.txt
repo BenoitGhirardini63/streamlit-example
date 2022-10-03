@@ -1,0 +1,10 @@
+plotly
+pandas
+streamlit
+openpyxl
+protobuf
+streamlit-aggrid
+sqlite3
+pypiwin32
+matplotlib
+numpy
