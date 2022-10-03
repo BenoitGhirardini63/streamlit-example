@@ -23,7 +23,6 @@ import streamlit as st # pip install streamlit
 
 # -- Définition des variables globales --
 db_path = st.secrets["DB_PATH"]
-st.write(db_path)
 bdd = sql.connect(db_path, check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
