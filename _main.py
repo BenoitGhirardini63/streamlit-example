@@ -36,6 +36,7 @@ compt_reactu_tot_metier_fait = 0
 class Init():
     def _Init(self):
         Init.list_personnes()
+        st.write(db_path)
         pass
 
     # -- Fonction qui permet de recuperer la liste des personnes suivies
@@ -47,7 +48,7 @@ class Init():
         list_Chorus = []
         list_manager.append("Synthèse atelier")
 
-
+        st.write(db_path)
         requette = bdd_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         st.write(requette.fetchall())
         for elements in requette:
