@@ -8,8 +8,8 @@ st.write(st.secrets["DB_USERNAME"])
 st.write(st.secrets["DB_PATH"])
  
 
- 
-"F222222" = st.secrets["DB_USERNAME"] 
+iD = "F222222" 
+st.secrets["DB_USERNAME"] = iD 
 st.title("Bonjour")
 
 st.write(st.secrets["DB_USERNAME"])
