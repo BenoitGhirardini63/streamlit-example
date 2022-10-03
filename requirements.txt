@@ -5,7 +5,7 @@ streamlit
 openpyxl
 protobuf
 streamlit-aggrid
-sqlite3
+pysqlite3
 pypiwin32
 matplotlib
 numpy
