@@ -1209,10 +1209,13 @@ class main(): # -- Application du header
                 
                 st_pwd = query_param["pwd"][0]
                 st.session_state["st_pwd"] = st_pwd
-                repertoire = f'C:/Users/{st_id}/3T/BDD/'
-
+                
+                st.write(st_id, st_pwd)
+                
                 try:
-                    bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
+                    db_path = st.secrets["DB_PATH"]
+                    
+                    bdd = sql.connect(db_path, check_same_thread=False)
                     co = bdd.execute(f"SELECT Nom, Password FROM Admins Where Michelin_ID='{st_id}'")
                     co = co.fetchone()
                     st.session_state["connect_ok"] = "ok"
@@ -1220,6 +1223,7 @@ class main(): # -- Application du header
 
                     if co[1] == st_pwd:
                         st.experimental_set_query_params(text="", pwd="")
+                        st.write("success")
                         app.open()
                     else:
                         st.write("mot de passe incorrect")
