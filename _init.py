@@ -13,14 +13,11 @@ from st_aggrid import GridOptionsBuilder, AgGrid
 
 
 class install():
-     def _Init(self, repertoire, nom_db, st_id):
+     def _Init(self):
           st.write("ini")
-          self.st_id = st_id
-          self.repertoire = repertoire
-          self.nom_db = nom_db
           self.progress = st.progress(0)
-
-          _bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
+          db_path = st.secrets["DB_PATH"]
+          _bdd = sql.connect(db_path, check_same_thread=False)
 
           try:
                _bdd.execute("SELECT * FROM Catalogue")
@@ -182,8 +179,8 @@ class install():
                          Michelin_ID TEXT NOT NULL,
                          Admins BOOL NOT NULL
                          )""")
-               name, = bdd.execute(f"SELECT Worker FROM Effectifs WHERE Michelin_ID='{self.st_id}'")
-               bdd.execute(f"INSERT INTO Admins (id,nom,Michelin_ID, Admins) VALUES (1,'{name[0]}', '{self.st_id}', {True})")
+
+               bdd.execute(f"INSERT INTO Admins (id,nom,Michelin_ID, Admins) VALUES (1,'Benoit Ghirardini', 'F269167', {True})")
                bdd.commit()
                st.button("Lancer l'application")
 
