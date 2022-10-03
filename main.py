@@ -1216,6 +1216,7 @@ class main(): # -- Application du header
                     co = bdd.execute(f"SELECT Nom, Password FROM Admins Where Michelin_ID='{st_id}'")
                     co = co.fetchone()
                     st.session_state["connect_ok"] = "ok"
+                    st.write(co)
 
                     if co[1] == st_pwd:
                         st.experimental_set_query_params(text="", pwd="")
