@@ -22,7 +22,7 @@ import streamlit as st # pip install streamlit
 
 
 # -- Définition des variables globales --
-db_path = "C:/BUSAPPS/Suivi_formations/Bdd/Bdd.db"
+db_path = r"C:/BUSAPPS/Suivi_formations/Bdd/Bdd.db"
 bdd = sql.connect(db_path, check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
