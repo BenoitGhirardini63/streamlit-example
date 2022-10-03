@@ -17,6 +17,7 @@ from st_aggrid import GridOptionsBuilder, AgGrid, JsCode
 import hydralit_components as hc
 import streamlit as st  # pip install streamlit
 import time
+import sqlite3 as sql
 
 
 # C:/Python/Python310/python.exe -m streamlit run 'c:/Users/F269167/OneDrive - MFP Michelin/Projets en cours/Suivi formations/Base Python - V1/Codes tests/test dashboard/app1.py'
@@ -1197,9 +1198,9 @@ class main(): # -- Application du header
 
     def connect(self):
       try:
-        bdd = sqlite3.connect(db_path, check_same_thread=False)
+        bdd = sql.connect(db_path, check_same_thread=False)
         app.open()
-      except sqlite3.Error:
+      except sql.Error:
         app._init()
 
 
