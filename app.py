@@ -4,7 +4,7 @@ import os
  
 import platform
  
-st.write("DB_PATH", st.secrets["DB_PATH"])
+st.write(st.secrets["DB_PATH"]))
  
 
 st.title("Bonjour")
