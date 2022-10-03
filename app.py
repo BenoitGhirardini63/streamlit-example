@@ -4,8 +4,8 @@ import os
  
 import platform
  
-my_system = platform.uname()
+st.write("DB_PATH", st.secrets["DB_PATH"])
  
 
 st.title("Bonjour")
-st.write(os.path.expanduser('~'))
+
