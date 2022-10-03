@@ -49,7 +49,7 @@ class Init():
 
 
         requette = bdd_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        st.write(requette)
+        st.write(requette.fetchall())
         for elements in requette:
             table = elements[0]
             if "S_" in table:
