@@ -22,8 +22,7 @@ import streamlit as st # pip install streamlit
 
 nom_db = "Bdd.db"
 # -- Définition des variables globales --
-repertoire = 'C:/Users/F269167/3T/BDD/'
-bdd = sql.connect(f"{repertoire}{nom_db}", check_same_thread=False)
+bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
 
@@ -168,7 +167,6 @@ class synthese():
         #   -Taux de respect (% d'actualisation effectuées/actualisation à faire) // @rate_respect
         end_year = datetime.now().year -1
         year = datetime.now().year
-        st.write(manager)
         date_of_reactu = "31-12-{}".format(end_year)
         date_of_reactu = datetime.strptime(date_of_reactu, '%d-%m-%Y')
         date_limit_of_reactu = "31-12-{}".format(year)
@@ -258,7 +256,6 @@ class synthese():
 
         if total_number_of_update_metier != 0:
             rate_respect = round(((total_number_of_update_done / total_number_of_update_metier) * 100) , 1)
-            print(rate_respect)
         else:
             rate_respect = 0
     
@@ -397,7 +394,6 @@ class synthese():
             if elem[0] != '':
                 ladate = datetime.strptime(elem[0], '%d-%m-%Y')
                 if ladate > date_of_reactu and ladate < date_limit_of_reactu:
-                    print(ladate)
                     total_number_of_update_done +=1
 
         retour_info.append(total_number_of_update_done)
@@ -408,7 +404,6 @@ class synthese():
 
         if total_number_of_update != 0:
             rate_respect = round(((total_number_of_update_done / number_of_update[0]) * 100) , 1)
-            print(rate_respect)
         else:
             rate_respect = 0
         retour_info.append(rate_respect)
@@ -602,7 +597,6 @@ class synthese():
 
             except:
                 pass
-        print(list_personnes_hors_suivi)
         return list_personnes_hors_suivi
     #recherche_personne_hors_suivi("Floriand Filari", "Digital")
 
@@ -687,7 +681,6 @@ class Workflow():
         requette = requette.fetchall()
         for elem in requette:
             table = elem[0]
-            print(table)
             if "S_" in table:
                 ID_Employee = str(table).replace("S_", "") # Récupère l'id chorus de la personne
                 test, = bdd_cursor.execute("SELECT COUNT(*) FROM S_{} WHERE Suivi_categories='True' AND Suivi_module='True' AND Date_Fait<>''".format(ID_Employee))
