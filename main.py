@@ -1197,9 +1197,9 @@ class main(): # -- Application du header
 
     def connect(self):
       try:
-        bdd = sql.connect(db_path, check_same_thread=False)
+        bdd = sqlite3.connect(db_path, check_same_thread=False)
         app.open()
-      except slq.Error:
+      except sqlite3.Error:
         app._init()
 
 
