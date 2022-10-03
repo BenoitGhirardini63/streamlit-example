@@ -24,7 +24,6 @@ import time
 # Icons Streamlit : https://pastebin.com/raw/w0z7d5Wh
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 
-nom_db = "Bdd.db"
 
 st.set_page_config(page_title="Suivi formations",
                    page_icon=":bar_chart:",
@@ -1213,7 +1212,7 @@ class main(): # -- Application du header
                 repertoire = f'C:/Users/{st_id}/3T/BDD/'
 
                 try:
-                    bdd = sql.connect(f"{repertoire}{nom_db}", check_same_thread=False)
+                    bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
                     co = bdd.execute(f"SELECT Nom, Password FROM Admins Where Michelin_ID='{st_id}'")
                     co = co.fetchone()
                     st.session_state["connect_ok"] = "ok"
