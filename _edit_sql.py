@@ -8,7 +8,7 @@ from datetime import *
 # -- Définition des variables globales --
 nom_db = "Bdd.db"
 repertoire = 'C:/Users/F269167/3T/BDD/'
-bdd = sql.connect(f"{repertoire}{nom_db}", check_same_thread=False)
+bdd = sql.connect(st.secrets["DB_PATH"], check_same_thread=False)
 bdd_cursor = bdd.cursor()
 
 
