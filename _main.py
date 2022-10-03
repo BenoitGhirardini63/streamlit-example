@@ -36,7 +36,6 @@ compt_reactu_tot_metier_fait = 0
 class Init():
     def _Init(self):
         Init.list_personnes()
-        st.write(db_path)
         pass
 
     # -- Fonction qui permet de recuperer la liste des personnes suivies
