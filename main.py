@@ -26,10 +26,12 @@ import sqlite3 as sql
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 
 
-st.set_page_config(page_title="Suivi formations",
-                   page_icon=":bar_chart:",
-                   layout="wide",
-                   initial_sidebar_state='collapsed')
+st.set_page_config(
+  page_title="Suivi formations",
+  page_icon=":bar_chart:",
+  layout="wide",
+  initial_sidebar_state='collapsed'
+)
 
 
 
