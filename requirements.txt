@@ -6,6 +6,5 @@ openpyxl
 protobuf
 streamlit-aggrid
 pysqlite3
-pywin32
 matplotlib
 numpy
