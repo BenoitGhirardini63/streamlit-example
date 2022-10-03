@@ -1198,19 +1198,10 @@ class main(): # -- Application du header
     def connect(self):
       try:
         bdd = sql.connect(db_path, check_same_thread=False)
-        
+        app.open()
       except slq.Error:
         app._init()
 
-                    
-
-            
-
-
-        else:
-            st_id = st.session_state["st_id"]
-            st.experimental_set_query_params(text="", pwd="")
-            app.open()
 
 if __name__ == "__main__":
     app = main()
