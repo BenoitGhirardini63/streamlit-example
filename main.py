@@ -1198,6 +1198,7 @@ class main(): # -- Application du header
 
     def connect(self):
       try:
+        db_path = st.secrets["DB_PATH"]
         bdd = sql.connect(db_path, check_same_thread=False)
         app.open()
       except sql.Error:
