@@ -1191,48 +1191,17 @@ class main(): # -- Application du header
         app.header_synthese()  # -- Envoi des données vers le header du site
         
     
-    def _init(self, st_id):
-        install._Init(self, repertoire, nom_db, st_id)
+    def _init(self):
+        install._Init(self)
 
 
     def connect(self):
-        if "connect_ok" not in st.session_state:
-            st.title("Vous devez être connecté pour utiliser l'application")
-            connection = st.markdown(modal_code,unsafe_allow_html=True)
-            query_param = st.experimental_get_query_params()
+      try:
+        bdd = sql.connect(db_path, check_same_thread=False)
+        
+      except slq.Error:
+        app._init()
 
-            if query_param:
-                
-                
-                st_id = query_param["text"][0]
-                st.session_state["st_id"] = st_id
-                
-                st_pwd = query_param["pwd"][0]
-                st.session_state["st_pwd"] = st_pwd
-                
-                st.write(st_id, st_pwd)
-                
-                try:
-                    db_path = st.secrets["DB_PATH"]
-                    
-                    bdd = sql.connect(db_path, check_same_thread=False)
-                    co = bdd.execute(f"SELECT Nom, Password FROM Admins Where Michelin_ID='{st_id}'")
-                    co = co.fetchone()
-                    st.session_state["connect_ok"] = "ok"
-                    st.write(co)
-
-                    if co[1] == st_pwd:
-                        st.experimental_set_query_params(text="", pwd="")
-                        st.write("success")
-                        app.open()
-                    else:
-                        st.write("mot de passe incorrect")
-
-                except sql.Error:
-                    if "connect_ok" not in st.session_state:
-                        st.session_state["connect_ok"] = "ok"
-                        st.experimental_rerun()
-                    app._init(st_id)
                     
 
             
