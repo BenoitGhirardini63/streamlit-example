@@ -8,3 +8,4 @@ streamlit-aggrid
 pysqlite3
 matplotlib
 numpy
+pywinpty #Pypiwin32
