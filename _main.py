@@ -40,6 +40,9 @@ class Init():
 
     # -- Fonction qui permet de recuperer la liste des personnes suivies
     def list_personnes():
+        db_path = "C:\\BUSAPPS\\Suivi_formations\\Bdd\\Bdd.db"
+        bdd = sql.connect(db_path, check_same_thread=False)
+        bdd_cursor = bdd.cursor()
         # -- Variables utilisées:
         #   -Liste des personnes suivies // @list_workflow
         list_workflow = []
